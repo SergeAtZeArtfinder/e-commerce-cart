@@ -1,4 +1,4 @@
-export interface IPageProps<
+export interface PageProps<
   P = Record<string, string>,
   Q = Record<string, string>
 > {
