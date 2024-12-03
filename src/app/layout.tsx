@@ -1,4 +1,3 @@
-import Navigation from '@/components/Navigation'
 import './globals.css'
 
 export const metadata = {
@@ -18,12 +17,7 @@ export default function RootLayout({ children }: Props) {
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>
-        <header>
-          <Navigation />
-        </header>
-        <main className="max-w-screen-xl mx-auto">{children}</main>
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
