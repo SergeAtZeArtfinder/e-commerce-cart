@@ -1,8 +1,14 @@
+import { Inter } from 'next/font/google'
+
 import './globals.css'
 
+const inter = Inter({
+  subsets: ['latin'],
+})
+
 export const metadata = {
-  title: 'NextJS v.14 Code Polygon',
-  description: 'Code polygon for latest Next.js v.14, features and patterns',
+  title: 'Flowmazon',
+  description: 'E-commerce - We make your wallet cry',
 }
 
 type Props = {
@@ -17,7 +23,9 @@ export default function RootLayout({ children }: Props) {
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>{children}</body>
+      <body className={inter.className}>
+        <main className="p-4 max-w-7xl min-w-[320px] mx-auto">{children}</main>
+      </body>
     </html>
   )
 }
