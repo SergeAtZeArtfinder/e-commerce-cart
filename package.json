@@ -7,7 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,mjs,cjs,json}'"
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,mjs,cjs,json}'",
+    "db-pull": "npx prisma db pull",
+    "db-push": "npx prisma db push",
+    "db-studio": "npx prisma studio",
+    "db-format": "npx prisma format",
+    "db-client-generate": "npx prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",

@@ -1,6 +1,21 @@
 ## Youtube
 https://www.youtube.com/watch?v=AaiijESQH5o
 
+## MongoDB w Prisma
+- if existing database, can pull and Prisma will generate the models automatically based on data
+```sh
+npx prisma db pull
+```
+- otherwise, you can create your own Model locally, then push that data model to db
+```sh
+npx prisma db push
+```
+- when done, we need to generate our prisma client to mathc our latest updates
+```sh
+npx prisma generate
+```
+
+
 ### Intro to Next.js V3
 
 https://scottmoss.notion.site/scottmoss/Intro-to-Next-js-V3-6cefbdba58d94e3897dcb8d7e7fc0337
