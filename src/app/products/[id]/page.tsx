@@ -7,6 +7,8 @@ import type { PageProps } from '@/types'
 
 import prisma from '@/lib/db/prisma'
 import PriceTag from '@/components/PriceTag'
+import AddToCartButton from '@/components/AddToCartButton'
+import { incrementProductQtyAction } from '@/lib/actions'
 
 const getProduct = cache(async (id: string) => {
   const product = await prisma.product.findUnique({
@@ -59,6 +61,10 @@ const ProductDetailsPage = async ({
         <h1 className="text-5xl font-bold">{product.name}</h1>
         <PriceTag price={product.price} className="mt-4" />
         <p className="py-4">{product.description}</p>
+        <AddToCartButton
+          productId={product.id}
+          action={incrementProductQtyAction}
+        />
       </div>
     </div>
   )
