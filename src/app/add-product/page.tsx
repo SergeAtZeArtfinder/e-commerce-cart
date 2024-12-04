@@ -1,5 +1,6 @@
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 
 import { authOptions } from '@/lib/authOptions'
@@ -35,6 +36,7 @@ const addProduct = async (formData: FormData) => {
     data: validation.data,
   })
 
+  revalidatePath('/')
   redirect('/')
 }
 

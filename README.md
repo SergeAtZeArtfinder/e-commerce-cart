@@ -10,11 +10,74 @@ npx prisma db pull
 ```sh
 npx prisma db push
 ```
-- when done, we need to generate our prisma client to mathc our latest updates
+- when done, we need to generate our prisma client to match our latest updates
 ```sh
 npx prisma generate
 ```
 
+## Removing abandoned shopping carts
+when anonymous user created a cart an never used it - it will accumulate the shopping carts not in use, which need to be deleted.
+- IF cart has no userID and the latest updated date is long ago - then it can be removed
+- such job needs to run periodically
+
+1. Firstly we need to refactor all places where we are create/update/delete cartItems directly, by achieving the same operation via the cart entity;
+   
+example:
+```ts
+await prisma.cartItem.delete({
+      where: {
+        id: itemInTheCart.id,
+      },
+})
+```
+to be replaced by cart operation so we can have updatedAt entry in the cart:
+```ts
+ await prisma.cart.update({
+      where: {
+        id: cart.id,
+      },
+      data: {
+        items: {
+          delete: {
+            id: itemInTheCart.id,
+          },
+        },
+      },
+})
+```
+the same can be done for update and create item
+2. However, the updating referenced child entity, will NOT update the parent, eg. an update to `cartItem` will not change the `cart.updatedAt` value, we either need to pass every time the `cart.updatedAt: new Date()` in each operation. Or we can extend the prisma client at its initialization file by extending it, so when cart children updated the cart's `updatedAt` value is updated as well.
+here:
+
+```ts
+import { PrismaClient } from '@prisma/client'
+
+const prismaClientSingleton = () => {
+  return new PrismaClient()
+}
+
+declare const globalThis: {
+  prismaGlobal: ReturnType<typeof prismaClientSingleton>
+} & typeof global
+
+const prismaBase = globalThis.prismaGlobal ?? prismaClientSingleton()
+
+const prisma = prismaBase.$extends({
+  query: {
+    cart: {
+      async update({ query, args }) {
+        args.data = { ...args.data, updatedAt: new Date() }
+        return query(args)
+      },
+    },
+  },
+})
+
+export default prisma
+
+if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prismaBase
+```
+2. Then set a Cron job on Vercel, or a cron job ( by lambda ) on mMongo Atlas cloud. [`Vercel cron jobs`](https://vercel.com/docs/cron-jobs/quickstart)
 
 ### Intro to Next.js V3
 
