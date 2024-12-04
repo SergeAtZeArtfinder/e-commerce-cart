@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar'
 
 import './globals.css'
 import Footer from '@/components/Footer'
+import SessionProvider from '@/components/SessionProvider'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,9 +27,13 @@ export default function RootLayout({ children }: Props) {
       */}
       <head />
       <body className={inter.className}>
-        <Navbar />
-        <main className="p-4 max-w-7xl min-w-[320px] mx-auto">{children}</main>
-        <Footer />
+        <SessionProvider>
+          <Navbar />
+          <main className="p-4 max-w-7xl min-w-[320px] mx-auto">
+            {children}
+          </main>
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   )
