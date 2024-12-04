@@ -158,13 +158,21 @@ export const mergeAnonymousCartIntoUserCart = async (userId: string) => {
         },
       })
 
-      // we want to omit the previously existing item IDs
-      await tx.cartItem.createMany({
-        data: mergedItems.map((item) => ({
-          cartId: userCart.id,
-          productId: item.productId,
-          quantity: item.quantity,
-        })),
+      await tx.cart.update({
+        where: {
+          id: userCart.id,
+        },
+        data: {
+          items: {
+            createMany: {
+              // we want to omit the previously existing item IDs
+              data: mergedItems.map((item) => ({
+                productId: item.productId,
+                quantity: item.quantity,
+              })),
+            },
+          },
+        },
       })
     } else {
       // 6. if user cart does not exist, create a new cart and set these local cart items

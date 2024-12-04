@@ -14,22 +14,37 @@ export const incrementProductQtyAction = async (productId: string) => {
   const itemInTheCart = cart.items.find((item) => item.productId === productId)
 
   if (itemInTheCart) {
-    await prisma.cartItem.update({
+    await prisma.cart.update({
       where: {
-        id: itemInTheCart.id,
+        id: cart.id,
       },
       data: {
-        quantity: {
-          increment: 1,
+        items: {
+          update: {
+            where: {
+              id: itemInTheCart.id,
+            },
+            data: {
+              quantity: {
+                increment: 1,
+              },
+            },
+          },
         },
       },
     })
   } else {
-    await prisma.cartItem.create({
+    await prisma.cart.update({
+      where: {
+        id: cart.id,
+      },
       data: {
-        cartId: cart.id,
-        productId,
-        quantity: 1,
+        items: {
+          create: {
+            productId,
+            quantity: 1,
+          },
+        },
       },
     })
   }
@@ -49,9 +64,16 @@ export const setProductQtyAction = async (
   const itemInTheCart = cart.items.find((item) => item.productId === productId)
 
   if (itemInTheCart && quantity <= 0) {
-    await prisma.cartItem.delete({
+    await prisma.cart.update({
       where: {
-        id: itemInTheCart.id,
+        id: cart.id,
+      },
+      data: {
+        items: {
+          delete: {
+            id: itemInTheCart.id,
+          },
+        },
       },
     })
 
@@ -60,20 +82,35 @@ export const setProductQtyAction = async (
   }
 
   if (itemInTheCart) {
-    await prisma.cartItem.update({
+    await prisma.cart.update({
       where: {
-        id: itemInTheCart.id,
+        id: cart.id,
       },
       data: {
-        quantity,
+        items: {
+          update: {
+            where: {
+              id: itemInTheCart.id,
+            },
+            data: {
+              quantity,
+            },
+          },
+        },
       },
     })
   } else {
-    await prisma.cartItem.create({
+    await prisma.cart.update({
+      where: {
+        id: cart.id,
+      },
       data: {
-        cartId: cart.id,
-        productId,
-        quantity,
+        items: {
+          create: {
+            productId,
+            quantity,
+          },
+        },
       },
     })
   }
