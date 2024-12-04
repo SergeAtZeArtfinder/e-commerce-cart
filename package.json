@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "postinstall": "prisma generate",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,mjs,cjs,json}'",
     "db-pull": "npx prisma db pull",
     "db-push": "npx prisma db push",
