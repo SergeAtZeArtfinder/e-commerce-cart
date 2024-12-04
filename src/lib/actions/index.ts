@@ -54,6 +54,7 @@ export const setProductQtyAction = async (
         id: itemInTheCart.id,
       },
     })
+
     revalidatePath('/cart', 'page')
     return
   }

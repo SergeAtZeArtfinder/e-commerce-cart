@@ -1,7 +1,10 @@
-import FormSubmitButton from '@/components/FormSubmitButton'
-import prisma from '@/lib/db/prisma'
+import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import FormSubmitButton from '@/components/FormSubmitButton'
+import prisma from '@/lib/db/prisma'
 
 export const metadata = {
   title: 'Add product - Flowmazon',
@@ -16,6 +19,11 @@ const addProductSchema = z.object({
 
 const addProduct = async (formData: FormData) => {
   'use server'
+  const session = await getServerSession(authOptions)
+
+  if (!session) {
+    redirect('/api/auth/signin?callbackUrl=/add-product')
+  }
 
   const values = Object.fromEntries(formData)
   const validation = addProductSchema.safeParse(values)
@@ -31,6 +39,12 @@ const addProduct = async (formData: FormData) => {
 }
 
 const AddProductPage = async () => {
+  const session = await getServerSession(authOptions)
+
+  if (!session) {
+    redirect('/api/auth/signin?callbackUrl=/add-product')
+  }
+
   return (
     <div>
       <h1 className="mb-3 text-lg font-bold">Add product</h1>

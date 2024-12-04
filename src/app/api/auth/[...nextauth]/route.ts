@@ -15,6 +15,13 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+  callbacks: {
+    async session({ session, user }) {
+      session.user.id = user.id
+
+      return session
+    },
+  },
 }
 
 const handler = NextAuth(authOptions)
