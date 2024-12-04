@@ -7,6 +7,10 @@ const nextConfig = {
             hostname: 'plus.unsplash.com'
         }, {
             hostname: 'lh3.googleusercontent.com'
+        }, {
+            hostname: 'loremflickr.com'
+        }, {
+            hostname: 'picsum.photos'
         }],
     }
 };
