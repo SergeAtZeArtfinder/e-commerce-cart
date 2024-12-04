@@ -28,6 +28,7 @@ export default function RootLayout({ children }: Props) {
       <head />
       <body className={inter.className}>
         <SessionProvider>
+          {/* @ts-ignore Server component */}
           <Navbar />
           <main className="p-4 max-w-7xl min-w-[320px] mx-auto">
             {children}

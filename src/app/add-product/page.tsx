@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
 import FormSubmitButton from '@/components/FormSubmitButton'
 import prisma from '@/lib/db/prisma'
 
