@@ -4,6 +4,8 @@ import React from 'react'
 import { signIn, signOut } from 'next-auth/react'
 import { Session } from 'next-auth'
 import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 import profilePicPlaceholder from '@/assets/profile-pic-placeholder.png'
 
@@ -12,6 +14,7 @@ interface Props {
 }
 
 const UserMenuButton = ({ session }: Props): JSX.Element => {
+  const pathname = usePathname()
   const user = session?.user
 
   return (
@@ -47,13 +50,25 @@ const UserMenuButton = ({ session }: Props): JSX.Element => {
       >
         <li>
           {user ? (
-            <button onClick={() => signOut({ callbackUrl: '/' })}>
+            <button
+              onClick={() => signOut({ callbackUrl: '/' })}
+              className="btn btn-primary"
+            >
               Sign Out
             </button>
           ) : (
-            <button onClick={() => signIn()}>Sign In</button>
+            <button onClick={() => signIn()} className="btn btn-primary">
+              Sign In
+            </button>
           )}
         </li>
+        {session?.user.role === 'ADMIN' && pathname !== '/add-product' && (
+          <li className="mt-2">
+            <Link href="/add-product" className="btn btn-primary">
+              Add product
+            </Link>
+          </li>
+        )}
       </ul>
     </div>
   )
