@@ -47,6 +47,10 @@ const AddProductPage = async () => {
     redirect('/api/auth/signin?callbackUrl=/add-product')
   }
 
+  if (session.user.role !== 'ADMIN') {
+    redirect('/')
+  }
+
   return (
     <div>
       <h1 className="mb-3 text-lg font-bold">Add product</h1>

@@ -17,6 +17,8 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, user }) {
       session.user.id = user.id
+      session.user.role =
+        user.email === process.env.ADMIN_EMAIL ? 'ADMIN' : 'USER'
 
       return session
     },
