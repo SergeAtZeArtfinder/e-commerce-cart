@@ -9,7 +9,7 @@ import { formatPrice } from '@/lib/format'
 
 const Options = ({ quantityAvailable }: { quantityAvailable: number }) => {
   const quantityOptions = Array.from(
-    { length: quantityAvailable },
+    { length: quantityAvailable + 1 },
     (_, i) => i
   ).map((i) => (
     <option key={i} value={i}>
@@ -57,9 +57,10 @@ const CartEntry = ({
                   )
                 })
               }}
+              disabled={product.quantity <= 0}
               className="select select-bordered w-full max-w-[80px]"
             >
-              <Options quantityAvailable={100} />
+              <Options quantityAvailable={product.quantity} />
             </select>
           </div>
           <div className="flex items-center gap-3">

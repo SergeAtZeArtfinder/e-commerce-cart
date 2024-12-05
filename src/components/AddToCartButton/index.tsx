@@ -5,17 +5,22 @@ import React, { useTransition, useState } from 'react'
 interface Props {
   productId: string
   action: (productId: string) => Promise<void>
+  isDisabled?: boolean
 }
 
-const AddToCartButton = ({ productId, action }: Props): JSX.Element => {
+const AddToCartButton = ({
+  productId,
+  action,
+  isDisabled,
+}: Props): JSX.Element => {
   const [isPending, startTransition] = useTransition()
   const [success, setSuccess] = useState(false)
 
   return (
     <div className="flex items-center gap-2">
       <button
-        className="btn btn-primary"
-        disabled={isPending}
+        className="btn btn-primary disabled:opacity-50"
+        disabled={isPending || isDisabled}
         onClick={() => {
           setSuccess(false)
           startTransition(async () => {
