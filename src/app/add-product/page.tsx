@@ -16,6 +16,7 @@ const addProductSchema = z.object({
   description: z.string().min(1),
   imageUrl: z.string().url(),
   price: z.string().transform((value) => parseInt(value, 10)),
+  quantity: z.string().transform((value) => parseInt(value, 10)),
 })
 
 const addProduct = async (formData: FormData) => {
@@ -81,6 +82,14 @@ const AddProductPage = async () => {
           placeholder="Price"
           type="number"
           className="input-bordered input mb-3 w-full"
+        />
+        <input
+          required
+          name="quantity"
+          placeholder="Quantity"
+          type="number"
+          className="input-bordered input mb-3 w-full"
+          defaultValue={100}
         />
         <FormSubmitButton className="btn-block">Add product</FormSubmitButton>
       </form>

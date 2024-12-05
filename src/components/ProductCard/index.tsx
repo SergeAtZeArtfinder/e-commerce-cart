@@ -31,6 +31,13 @@ const ProductCard = ({ product }: Props): JSX.Element => {
         <h2 className="card-title">{product.name}</h2>
         {isNew && <span className="badge badge-secondary">New</span>}
         <p>{product.description}</p>
+        <div className="mt-auto ml-auto text-sm">
+          {product.quantity > 0 ? (
+            <p>Qty: {product.quantity}</p>
+          ) : (
+            <p>Out of stock</p>
+          )}
+        </div>
         <PriceTag price={product.price} />
       </div>
     </Link>

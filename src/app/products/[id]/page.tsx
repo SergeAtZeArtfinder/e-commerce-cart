@@ -61,9 +61,17 @@ const ProductDetailsPage = async ({
         <h1 className="text-5xl font-bold">{product.name}</h1>
         <PriceTag price={product.price} className="mt-4" />
         <p className="py-4">{product.description}</p>
+        <div className="mt-auto ml-auto text-sm">
+          {product.quantity > 0 ? (
+            <p>Qty: {product.quantity}</p>
+          ) : (
+            <p>Out of stock</p>
+          )}
+        </div>
         <AddToCartButton
           productId={product.id}
           action={incrementProductQtyAction}
+          isDisabled={product.quantity <= 0}
         />
       </div>
     </div>
